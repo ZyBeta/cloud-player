@@ -105,3 +105,10 @@ dist
 
 # idea
 .idea/
+
+# yarn
+package-lock.json
+yarn.lock
+
+# process
+db.dat
