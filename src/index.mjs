@@ -1,8 +1,9 @@
 import {install} from './common/sqlite/init.mjs';
 import {getHeroes, getItems} from './common/steam/init.mjs';
 import {getFormatHeroInfo} from './common/huiji/hero.mjs';
+import server from './common/express/index.mjs';
 
-async function init() {
+async function initRobot() {
   try {
     await install();
     await getHeroes();
@@ -21,4 +22,4 @@ async function run() {
   }
 }
 
-run();
+server();

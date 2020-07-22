@@ -1,16 +1,27 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import {getHeroList} from '../sqlite/heroes.mjs';
+import {sendMessageToGroup} from './sender.mjs';
+import {getFormatHeroInfo} from '../huiji/hero.mjs';
 
-export default function init() {
+export default async function init() {
   const app = express();
   app.use(bodyParser.json());
 
-  app.get('/', (req, res) => {
-    console.log(req.body);
+  const cachedHeroes = await getHeroList();
+
+  app.post('/', async (req, res) => {
     const data = req.body;
     if (data['post_type'] === 'message' && data['message_type'] === 'group' && data['sub_type'] !== 'notice') {
       const rawMessage = data['raw_message'];
-      console.log(rawMessage);
+      const find = cachedHeroes.find(hero => {
+        return rawMessage.indexOf(hero['name_zh']) !== -1;
+      })
+      if (find) {
+        const result = await getFormatHeroInfo(find['id']);
+        const KUQ = await sendMessageToGroup(result, data['group_id']);
+        console.log(KUQ.data)
+      }
     }
     res.status(204).json({});
   });

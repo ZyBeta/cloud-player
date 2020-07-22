@@ -32,3 +32,17 @@ export function get(sql) {
     });
   });
 }
+
+export function all(sql) {
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
+      db.all(sql, (err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
+    });
+  });
+}
