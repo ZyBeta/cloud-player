@@ -1,0 +1,23 @@
+import axios from 'axios';
+
+const baseUrl = 'http://dota.huijiwiki.com';
+
+const dota2path = '/api.php';
+
+axios.get(baseUrl + dota2path, {
+  headers: {
+    'User-Agent': `CloudPlayer/1.0 (295881455@qq.com)`,
+    'Accept-Encoding': `gzip`,
+  },
+  params: {
+    action: 'parse',
+    format: 'json',
+    text: '{{#invoke:物品|show_all_item}}',
+    contentmodel: 'wikitext',
+    prop: 'parsetree',
+  },
+}).then((response) => {
+  debugger;
+  console.log(response);
+});
+

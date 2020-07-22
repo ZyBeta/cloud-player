@@ -1,0 +1,25 @@
+{
+  "name": "cloud-player",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.mjs",
+  "scripts": {
+    "start": "node src/index.mjs",
+    "debug": "node --inspect-brk src/index.mjs",
+    "init-db": "node src/common/sqlite/init.mjs",
+    "init-steam": "node src/common/steam/init.mjs",
+    "test-huiji": "node --inspect-brk src/common/huiji/hero.mjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "request": "^2.88.2",
+    "socks5-http-client": "^1.0.4",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
