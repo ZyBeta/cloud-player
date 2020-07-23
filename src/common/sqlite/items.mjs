@@ -58,6 +58,10 @@ const COLUMNS = [
     'mana_down',
 ]
 
+export async function getItemList() {
+    return get(`SELECT ( id, name_zh) FROM ${TABLE_NAME}`)
+}
+
 export async function getItem(id) {
     return get(`SELECT * FROM ${TABLE_NAME} WHERE id = ${id}`)
 }

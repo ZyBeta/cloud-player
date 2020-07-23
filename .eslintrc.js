@@ -38,8 +38,9 @@ module.exports = {
             },
         ],
         'template-curly-spacing': 'off',
-        indent: 'off',
+        indent: ['error', 4],
         'import/extensions': 'off',
-        'no-restricted-syntax': 'off'
+        'no-restricted-syntax': 'off',
+        'import/prefer-default-export': 'off',
     },
 }

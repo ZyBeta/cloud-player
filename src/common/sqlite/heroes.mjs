@@ -1,4 +1,4 @@
-import { get, run } from './promiseSql.mjs'
+import { get, run, all } from './promiseSql.mjs'
 
 const TABLE_NAME = 'heroes'
 
@@ -37,6 +37,10 @@ const COLUMNS = [
     'turn_rate',
     'speed',
 ]
+
+export async function getHeroList() {
+    return all(`SELECT ( id, name_zh) FROM ${TABLE_NAME}`)
+}
 
 export async function getHero(id) {
     return get(`SELECT * FROM ${TABLE_NAME} WHERE id = ${id}`)

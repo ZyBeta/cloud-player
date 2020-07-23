@@ -1,21 +1,39 @@
-import axios from 'axios';
+import axios from 'axios'
+import CONFIG from '../../config.mjs'
 
 const client = axios.create({
-    baseURL: 'http://127.0.0.1:5700'
-});
+    baseURL: CONFIG.CQ_http_url,
+})
 
-export function sendMessageToGroup(message, groupId) {
-    return client.post('send_group_msg', {
-        group_id: groupId,
+/* eslint-disable camelcase */
+export async function sendMessage({
+    message,
+    user_id,
+    group_id,
+    discuss_id,
+    message_type,
+}) {
+    let url
+    if (message_type === 'private') url = 'send_private_msg'
+    if (message_type === 'group') url = 'send_group_msg'
+    if (message_type === 'discuss') url = 'send_discuss_msg'
+    if (CONFIG.rate_limit) url += '_rate_limited'
+    await client.post(url, {
+        user_id,
+        group_id,
+        discuss_id,
         message,
-        auto_escape: false
+        auto_escape: false,
     })
-}
-
-export function sendMessageToMe(message) {
-    return client.post('send_private_msg', {
-        user_id: '295881455',
-        message,
-        auto_escape: false
-    })
+    if (CONFIG.private_message_in_group && message_type !== 'private') {
+        url = 'send_private_msg'
+        if (CONFIG.rate_limit) url += '_rate_limited'
+        await client.post(url, {
+            user_id,
+            group_id,
+            discuss_id,
+            message,
+            auto_escape: false,
+        })
+    }
 }

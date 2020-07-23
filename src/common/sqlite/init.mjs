@@ -2,8 +2,8 @@ import { run } from './promiseSql.mjs'
 
 export async function install() {
     await run(
-            `DROP TABLE IF EXISTS heroes`,
-            `CREATE TABLE heroes
+        `DROP TABLE IF EXISTS heroes`,
+        `CREATE TABLE heroes
              (
                  id                  INTEGER PRIMARY KEY NOT NULL,
                  name                TEXT,
@@ -39,8 +39,8 @@ export async function install() {
                  turn_rate           TEXT,
                  speed               TEXT
              )`,
-            `DROP TABLE IF EXISTS abilities`,
-            `CREATE TABLE abilities
+        `DROP TABLE IF EXISTS abilities`,
+        `CREATE TABLE abilities
              (
                  hero_id      INTEGER,
                  name    TEXT,
@@ -51,8 +51,8 @@ export async function install() {
                  cold_down   TEXT,
                  mana        TEXT
              )`,
-            `DROP TABLE IF EXISTS items`,
-            `CREATE TABLE items
+        `DROP TABLE IF EXISTS items`,
+        `CREATE TABLE items
              (
                  id                 INTEGER PRIMARY KEY NOT NULL,
                  name               TEXT,
@@ -107,8 +107,8 @@ export async function install() {
                  armor_down         TEXT,
                  mana_down          TEXT
              )`,
-            `DROP TABLE IF EXISTS items_abilities`,
-            `CREATE TABLE items_abilities
+        `DROP TABLE IF EXISTS items_abilities`,
+        `CREATE TABLE items_abilities
              (
                  item_id     INTEGER,
                  name        TEXT,
