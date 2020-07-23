@@ -26,7 +26,7 @@ export default async function init() {
     res.status(204).json({});
   });
 
-  app.listen(3000, () => {
-    console.log('express is listening on port 3000');
-  });
+    app.listen(3000, () => {
+        console.log('express is listening on port 3000')
+    })
 }
