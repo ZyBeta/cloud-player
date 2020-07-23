@@ -13,7 +13,7 @@ export function parseCommand(string) {
     const keys = Object.keys(COMMAND_LIST)
     let findKey
     let findWord
-    for (let i = 0; i < keys; i += 1) {
+    for (let i = 0; i < keys.length; i += 1) {
         const key = keys[i]
         const list = COMMAND_LIST[key]
         for (let j = 0; j < list.length; j += 1) {
@@ -26,11 +26,12 @@ export function parseCommand(string) {
         }
         if (findKey) break
     }
+    if (!findKey) return false
     const params = {}
     const paramString = command.substring(findWord.length)
     const splitString = paramString.split(' ')
     let nowParam
-    for (let i = 0; i < splitString; i += 1) {
+    for (let i = 0; i < splitString.length; i += 1) {
         const param = splitString[i].trim()
         if (param) {
             if (param.startsWith('-')) {
@@ -49,8 +50,17 @@ export function parseCommand(string) {
             }
         }
     }
+    if (nowParam) {
+        params[nowParam.key] = nowParam.list
+    }
     return {
         key: findKey,
         params,
     }
 }
+
+export const COMMAND_TEXT = `
+!#help|!#h to show this page
+!#query|!#q [-t hero|item] -q {queryinfo} to search
+!#random|!#r [-t hero|item] to get random info
+`

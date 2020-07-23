@@ -1,12 +1,12 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import { getHeroList } from '../sqlite/heroes.mjs'
-import { getItemList } from '../sqlite/items.mjs'
+import { getHeroList, getHeroByName } from '../sqlite/heroes.mjs'
+import { getItemList, getItemByName } from '../sqlite/items.mjs'
 import { sendMessage } from './sender.mjs'
 import { getFormatHeroInfo } from '../huiji/hero.mjs'
 import { getFormatItemInfo } from '../huiji/item.mjs'
 import CONFIG from '../../config.mjs'
-import { parseCommand } from './command.mjs'
+import { parseCommand, COMMAND_TEXT } from './command.mjs'
 
 export default async function init() {
     const app = express()
@@ -24,7 +24,37 @@ export default async function init() {
                 const rawMessage = data.raw_message
                 const parsedCommand = parseCommand(rawMessage)
                 if (parsedCommand) {
-                // TODO
+                    console.log(parsedCommand)
+                    if (parsedCommand.key === 'help') {
+                        await sendMessage({
+                            ...data,
+                            message: COMMAND_TEXT,
+                        })
+                    }
+                    if (parsedCommand.key === 'query') {
+                        const target = parsedCommand.params.t
+                        const query = parsedCommand.params.q
+                        if (target.indexOf('hero') !== -1) {
+                            const hero = await getHeroByName(query[0])
+                            if (hero) {
+                                const result = await getFormatHeroInfo(hero.id)
+                                await sendMessage({
+                                    ...data,
+                                    message: result,
+                                })
+                            }
+                        }
+                        if (target.indexOf('item') !== -1) {
+                            const item = await getItemByName(query[0])
+                            if (item) {
+                                const result = await getFormatItemInfo(item.id)
+                                await sendMessage({
+                                    ...data,
+                                    message: result,
+                                })
+                            }
+                        }
+                    }
                 } else if (!CONFIG.only_command) {
                     let find = cachedHeroes.find((hero) => rawMessage.indexOf(hero.name_zh) !== -1)
                     if (find) {
