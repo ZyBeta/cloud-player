@@ -1,7 +1,6 @@
 import { install } from './common/sqlite/init.mjs'
 import { getHeroes, getItems } from './common/steam/init.mjs'
 import { getFormatHeroInfo } from './common/huiji/hero.mjs'
-import Config from './config.mjs'
 
 async function init() {
   try {
@@ -22,4 +21,4 @@ async function run() {
   }
 }
 
-console.log(Config.steam_api_key)
+init().then()

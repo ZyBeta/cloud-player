@@ -3,7 +3,7 @@ import { get, run } from './promiseSql.mjs'
 const TABLE_NAME = 'heroes'
 
 const COLUMNS = [
-    'id',
+    // 'id',
     'name',
     'name_zh',
     'alias_en',
@@ -42,23 +42,22 @@ export async function getHero(id) {
     return get(`SELECT * FROM ${TABLE_NAME} WHERE id = ${id}`)
 }
 
-export function addHero({ id, name, nameZh }) {
-    run(`INSERT INTO ${TABLE_NAME} ( id, name, name_zh) VALUES ( ${id}, '${name}', '${nameZh}')`)
+export async function addHero({ id, name, nameZh }) {
+    await run(`INSERT INTO ${TABLE_NAME} ( id, name, name_zh) VALUES ( ${id}, '${name}', '${nameZh}')`)
 }
 
-export function deleteHero(id) {
-    run(`DELETE FROM ${TABLE_NAME} WHERE id = ${id}`)
+export async function deleteHero(id) {
+    await run(`DELETE FROM ${TABLE_NAME} WHERE id = ${id}`)
 }
 
-export function putHero(id, params) {
+export async function putHero(id, params) {
     const keys = Object.keys(params)
     let setStr = ''
     for (const key of keys) {
-        if (COLUMNS.indexOf(key) !== -1) {
+        if (params[key] && COLUMNS.indexOf(key) !== -1) {
             setStr += ` ${key} = '${params[key]}',`
         }
     }
     setStr = setStr.substring(0, setStr.length - 1)
-
-    run(`UPDATE ${TABLE_NAME} SET ${setStr} WHERE id = ${id}`)
+    await run(`UPDATE ${TABLE_NAME} SET ${setStr} WHERE id = ${id}`)
 }

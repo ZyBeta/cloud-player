@@ -19,7 +19,7 @@ export async function getHeroes() {
     if (res.data) {
         const { heroes } = res.data.result
         const tasks = []
-        heroes.each((hero) => {
+        heroes.forEach((hero) => {
             tasks.push(addHero({
                 id: hero.id,
                 name: hero.name,
@@ -37,7 +37,7 @@ export async function getItems() {
     if (res.data) {
         const { items } = res.data.result
         const tasks = []
-        items.each((item) => {
+        items.forEach((item) => {
             tasks.push(addItem({
                 id: item.id,
                 name: item.name,

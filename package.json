@@ -8,7 +8,7 @@
     "debug": "node --inspect-brk src/index.mjs",
     "init-db": "node src/common/sqlite/init.mjs",
     "init-steam": "node src/common/steam/init.mjs",
-    "test-huiji": "node --inspect-brk src/common/huiji/hero.mjs"
+    "test-huiji": "node src/common/huiji/hero.mjs"
   },
   "author": "",
   "license": "ISC",
