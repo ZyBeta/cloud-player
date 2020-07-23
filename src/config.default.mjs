@@ -5,6 +5,8 @@ export default {
     steam_api_key: 'XXXXX',
     // UA show to huiji wiki, you can put your contact information here
     huiji_user_agent: 'CloudPlayer/1.0 (example@example.com)',
+    // URL of CQ http
+    CQ_http_url: 'http://127.0.0.1:5700',
     // show extend info from huiji wiki
     show_extend_info: false,
     // active in private

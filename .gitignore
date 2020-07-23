@@ -111,5 +111,5 @@ package-lock.json
 yarn.lock
 
 # process
-db.dat
+./db.dat
 config.mjs
