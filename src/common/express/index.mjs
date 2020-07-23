@@ -29,20 +29,18 @@ export default async function init() {
                     let find = cachedHeroes.find((hero) => rawMessage.indexOf(hero.name_zh) !== -1)
                     if (find) {
                         const result = await getFormatHeroInfo(find.id)
-                        const KUQ = await sendMessage({
+                        await sendMessage({
                             ...data,
                             message: result,
                         })
-                        console.log(KUQ.data)
                     } else {
                         find = cachedItems.find((item) => rawMessage.indexOf(item.name_zh) !== -1)
                         if (find) {
                             const result = await getFormatItemInfo(find.id)
-                            const KUQ = await sendMessage({
+                            await sendMessage({
                                 ...data,
                                 message: result,
                             })
-                            console.log(KUQ.data)
                         }
                     }
                 }

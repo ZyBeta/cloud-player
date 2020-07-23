@@ -67,7 +67,7 @@ function parseCD(json) {
 }
 
 function formatWikiText(wikiText) {
-    return wikiText.replace(/\[\[.*?link.*?]]/g, '')
+    return wikiText.replace(/\[\[.*?link.*?]]/g, '').replace(/\[\[file.*?]]/g, '')
 }
 
 /* eslint-disable prefer-destructuring,no-await-in-loop */
@@ -191,7 +191,7 @@ function listab(ab, key) {
 export async function getFormatHeroInfo(id) {
     const { hero, ab } = await getCachedHero(id)
     return `${hero.name_zh} ${hero.alias_zh} ${hero.team}${hero.attribute_primary}${hero.attack_capabilities}英雄
-攻击: ${hero.attack_min} - ${hero.attack_max} 护甲: ${hero.armor}
+攻击: ${hero.attack_min} - ${hero.attack_max} 护甲: ${hero.armor || 0}
 攻击速度: ${hero.attack_speed} 攻击间隔: ${hero.attack_rate}
 攻击前摇: ${hero.attack_point1} 攻击后摇: ${hero.attack_point2}
 攻击范围: ${hero.attack_range} 弹道速度: ${hero.projectile_speed}
@@ -199,6 +199,7 @@ export async function getFormatHeroInfo(id) {
 视野: (${hero.vision_day}/${hero.vision_night})
 生命: ${hero.health}(${hero.health_regen || 0}/s) 魔法: ${hero.mana}(${hero.mana_regen || 0}/s)
 移动速度: ${hero.speed} 转身速度: ${hero.turn_rate}
+
 技能:
 ${listab(ab, '1')}
 天赋:

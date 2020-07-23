@@ -1,4 +1,4 @@
-import { get, run } from './promiseSql.mjs'
+import { get, run, all } from './promiseSql.mjs'
 
 const TABLE_NAME = 'items'
 
@@ -59,7 +59,7 @@ const COLUMNS = [
 ]
 
 export async function getItemList() {
-    return get(`SELECT ( id, name_zh) FROM ${TABLE_NAME}`)
+    return all(`SELECT id, name_zh FROM ${TABLE_NAME}`)
 }
 
 export async function getItem(id) {

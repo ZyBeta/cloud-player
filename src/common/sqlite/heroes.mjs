@@ -39,7 +39,7 @@ const COLUMNS = [
 ]
 
 export async function getHeroList() {
-    return all(`SELECT ( id, name_zh) FROM ${TABLE_NAME}`)
+    return all(`SELECT id, name_zh FROM ${TABLE_NAME}`)
 }
 
 export async function getHero(id) {
