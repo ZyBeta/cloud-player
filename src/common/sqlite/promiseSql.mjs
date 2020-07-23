@@ -1,8 +1,8 @@
-import sqlite3 from 'sqlite3';
+import sqlite3 from 'sqlite3'
 
-sqlite3.verbose();
+sqlite3.verbose()
 
-const db = new sqlite3.Database('.\\db.dat');
+const db = new sqlite3.Database('.\\db.dat')
 
 export function run(...sql) {
   return new Promise((resolve, reject) => {
@@ -10,13 +10,13 @@ export function run(...sql) {
       for (const sqlElement of sql) {
         db.run(sqlElement, (err) => {
           if (err) {
-            reject(err);
+            reject(err)
           }
-        });
+        })
       }
-    });
-    resolve();
-  });
+    })
+    resolve()
+  })
 }
 
 export function get(sql) {
@@ -24,11 +24,11 @@ export function get(sql) {
     db.serialize(() => {
       db.get(sql, (err, res) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(res);
+          resolve(res)
         }
-      });
-    });
-  });
+      })
+    })
+  })
 }

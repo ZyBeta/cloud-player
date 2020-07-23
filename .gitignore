@@ -112,3 +112,4 @@ yarn.lock
 
 # process
 db.dat
+config.mjs

@@ -1,4 +1,4 @@
-import {run} from './promiseSql.mjs';
+import { run } from './promiseSql.mjs'
 
 export function install() {
   run(
@@ -52,5 +52,6 @@ export function install() {
                  id      INTEGER,
                  name    TEXT,
                  name_zh TEXT
-             )`);
+             )`,
+)
 }
