@@ -25,6 +25,13 @@ function fetchHero(name) {
     })
 }
 
+function formatWikiText(wikiText) {
+    return wikiText.replace(/\[\[.*?link.*?]]/g, ' ')
+        .replace(/\[\[file.*?]]/g, ' ')
+        .replace(/'/g, '')
+        .replace(/<br>/g, '\r\n')
+}
+
 function joinExtend(object) {
     if (!object) return ''
     const keys = Object.keys(object)
@@ -32,7 +39,7 @@ function joinExtend(object) {
     for (let i = 0; i < keys.length; i += 1) {
         const key = keys[i]
         const comment = object[key]
-        target.push(comment['文字'].replace(/<br>/g, '\r\n').replace(/'/g, ''))
+        target.push(formatWikiText(comment['文字']))
     }
     return target.join('\r\n')
 }
@@ -65,10 +72,6 @@ function parseCD(json) {
         return cd.join('/')
     }
     return ''
-}
-
-function formatWikiText(wikiText) {
-    return wikiText.replace(/\[\[.*?link.*?]]/g, '').replace(/\[\[file.*?]]/g, '')
 }
 
 /* eslint-disable prefer-destructuring,no-await-in-loop */
