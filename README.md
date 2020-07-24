@@ -1,7 +1,9 @@
 # cloud-player
 
 a dota2 cloud player
+
 一个dota2云玩家
+
 基于[酷Q](https://cqp.cc/)和[CQHTTP](https://github.com/richardchien/coolq-http-api)的dota2机器人。
 dota2信息来源于[steam官方API](https://wiki.teamfortress.com/wiki/WebAPI)和[dota灰机wiki](https://dota.huijiwiki.com/wiki/%E9%A6%96%E9%A1%B5)。
 
