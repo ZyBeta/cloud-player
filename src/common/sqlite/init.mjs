@@ -42,9 +42,9 @@ export async function install() {
         `DROP TABLE IF EXISTS abilities`,
         `CREATE TABLE abilities
              (
-                 hero_id      INTEGER,
-                 name    TEXT,
-                 name_zh TEXT PRIMARY KEY NOT NULL,
+                 hero_id     INTEGER,
+                 name        TEXT,
+                 name_zh     TEXT PRIMARY KEY NOT NULL,
                  type        TEXT,
                  info        TEXT,
                  extend_info TEXT,
