@@ -5,7 +5,7 @@ import { getItemRandom } from './common/sqlite/items.mjs'
 
 async function test() {
     const hero = await getHeroRandom()
-    const result1 = await getFormatHeroInfo(hero.id)
+    const result1 = await getFormatHeroInfo(63)
     console.log(result1)
     const item = await getItemRandom()
     const result2 = await getFormatItemInfo(item.id)

@@ -21,6 +21,22 @@ export function run(...sqls) {
     return Promise.all(tasks)
 }
 
+export function statementRun(sql, params) {
+    return new Promise((resolve, reject) => {
+        db.serialize(() => {
+            const statement = db.prepare(sql)
+            statement.run(params)
+            statement.finalize((err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve()
+                }
+            })
+        })
+    })
+}
+
 export function get(sql) {
     return new Promise((resolve, reject) => {
         db.get(sql, (err, res) => {
