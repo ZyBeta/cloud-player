@@ -33,7 +33,7 @@ export async function putAB(nameZh, params) {
     const keys = Object.keys(params)
     let setStr = ''
     for (const key of keys) {
-        if (params[key] && COLUMNS.indexOf(key) !== -1) {
+        if ((params[key] === 0 || params[key]) && COLUMNS.indexOf(key) !== -1) {
             setStr += ` ${key} = '${params[key]}',`
         }
     }

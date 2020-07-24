@@ -8,10 +8,11 @@ import CONFIG from '../../config.mjs'
 const client = axios.create({
     baseURL: 'https://dota.huijiwiki.com/api.php',
     headers: {
-        'User-Agent': '',
+        'User-Agent': CONFIG.huiji_user_agent,
         'Accept-Encoding': 'gzip',
         Accept: 'application/json; charset=utf-8;',
     },
+    timeout: 30000,
 })
 
 function fetchItem(name) {
@@ -58,14 +59,19 @@ function parseItem(json, key) {
 export async function getCachedItem(id) {
     let item = await getItem(id)
     let ia = await getIAbyItem(id)
-    if (item.base_info) {
-        // not a good way, for temporary
+    if (item && item.version && item.version === CONFIG.game_major_version) {
         return {
             item, ia,
         }
     }
     const res = await fetchItem(item.name_zh)
     const { jsondata } = res.data
+    if (!jsondata) {
+        await putItem(id, { not_found: '1' })
+        return {
+            item, ia,
+        }
+    }
     const skills = jsondata['技能']
     if (skills) {
         const keys = Object.keys(skills)
@@ -153,6 +159,7 @@ export async function getCachedItem(id) {
     sqlObject.attack_rate = parseItem(jsondata, '基础攻击间隔')
     sqlObject.armor_down = parseItem(jsondata, '负护甲')
     sqlObject.mana_down = parseItem(jsondata, '负魔法值')
+    sqlObject.version = jsondata['版本']
     await putItem(id, sqlObject)
     item = await getItem(id)
     ia = await getIAbyItem(id)

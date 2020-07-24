@@ -8,10 +8,11 @@ import CONFIG from '../../config.mjs'
 const client = axios.create({
     baseURL: 'https://dota.huijiwiki.com/api.php',
     headers: {
-        'User-Agent': '',
+        'User-Agent': CONFIG.huiji_user_agent,
         'Accept-Encoding': 'gzip',
         Accept: 'application/json; charset=utf-8;',
     },
+    timeout: 30000,
 })
 
 function fetchHero(name) {
@@ -74,16 +75,19 @@ function formatWikiText(wikiText) {
 export async function getCachedHero(id) {
     let hero = await getHero(id)
     let ab = await getABbyHero(id)
-    /*
-    if (hero.base_info) {
-        // not a good way, for temporary
+    if (hero && hero.version && hero.version === CONFIG.game_major_version) {
         return {
             hero, ab,
         }
     }
-    */
     const res = await fetchHero(hero.name_zh)
     const { jsondata } = res.data
+    if (!jsondata) {
+        await putHero(id, { not_found: '1' })
+        return {
+            hero, ab,
+        }
+    }
     const skills = jsondata['技能']
     if (skills) {
         const keys = Object.keys(skills)
@@ -148,6 +152,7 @@ export async function getCachedHero(id) {
     sqlObject.mana_regen = jsondata['魔法恢复'][1]
     sqlObject.turn_rate = jsondata['转身速率'][1]
     sqlObject.speed = jsondata['移动速度'][1]
+    sqlObject.version = jsondata['版本']
     await putHero(id, sqlObject)
     hero = await getHero(id)
     ab = await getABbyHero(id)
@@ -190,14 +195,14 @@ function listab(ab, key) {
 
 export async function getFormatHeroInfo(id) {
     const { hero, ab } = await getCachedHero(id)
-    return `${hero.name_zh} ${hero.alias_zh} ${hero.team}${hero.attribute_primary}${hero.attack_capabilities}英雄
-攻击: ${hero.attack_min} - ${hero.attack_max} 护甲: ${hero.armor || 0}
+    return `${hero.name_zh} ${hero.alias_zh || ''} ${hero.team}${hero.attribute_primary}${hero.attack_capabilities}英雄
+攻击: ${hero.attack_min} - ${hero.attack_max} 护甲: ${hero.armor}
 攻击速度: ${hero.attack_speed} 攻击间隔: ${hero.attack_rate}
 攻击前摇: ${hero.attack_point1} 攻击后摇: ${hero.attack_point2}
 攻击范围: ${hero.attack_range} 弹道速度: ${hero.projectile_speed}
 力量: ${hero.strength}(+${hero.strength_gain}) 敏捷: ${hero.agility}(+${hero.agility_gain}) 智力: ${hero.intelligence}(+${hero.intelligence_gain})
 视野: (${hero.vision_day}/${hero.vision_night})
-生命: ${hero.health}(${hero.health_regen || 0}/s) 魔法: ${hero.mana}(${hero.mana_regen || 0}/s)
+生命: ${hero.health}(${hero.health_regen}/s) 魔法: ${hero.mana}(${hero.mana_regen}/s)
 移动速度: ${hero.speed} 转身速度: ${hero.turn_rate}
 
 技能:

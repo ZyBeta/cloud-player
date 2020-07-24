@@ -106,6 +106,9 @@ dist
 # idea
 .idea/
 
+# vs code
+.vscode
+
 # yarn
 package-lock.json
 yarn.lock

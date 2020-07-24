@@ -5,13 +5,15 @@
   "main": "src/index.mjs",
   "scripts": {
     "init": "node src/install.mjs",
-    "start": "node src/index.mjs"
+    "start": "node src/index.mjs",
+    "debug": "node src/test.mjs"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
+    "consola": "^2.14.0",
     "express": "^4.17.1",
     "request": "^2.88.2",
     "sqlite3": "^5.0.0"

@@ -36,10 +36,16 @@ const COLUMNS = [
     'mana_regen',
     'turn_rate',
     'speed',
+    'version',
+    'not_found',
 ]
 
 export async function getHeroList() {
     return all(`SELECT id, name_zh FROM ${TABLE_NAME}`)
+}
+
+export async function getHeroRandom() {
+    return get(`SELECT id, name_zh FROM ${TABLE_NAME} WHERE not_found IS NULL ORDER BY RANDOM()`)
 }
 
 export async function getHero(id) {
@@ -47,7 +53,7 @@ export async function getHero(id) {
 }
 
 export async function getHeroByName(name) {
-    return get(`SELECT * FROM ${TABLE_NAME} WHERE name_zh LIKE '%${name}%'`)
+    return get(`SELECT * FROM ${TABLE_NAME} WHERE name_zh LIKE '%${name}%' AND not_found IS NULL`)
 }
 
 export async function addHero({ id, name, nameZh }) {
@@ -62,7 +68,7 @@ export async function putHero(id, params) {
     const keys = Object.keys(params)
     let setStr = ''
     for (const key of keys) {
-        if (params[key] && COLUMNS.indexOf(key) !== -1) {
+        if ((params[key] === 0 || params[key]) && COLUMNS.indexOf(key) !== -1) {
             setStr += ` ${key} = '${params[key]}',`
         }
     }

@@ -5,45 +5,42 @@ sqlite3.verbose()
 
 const db = new sqlite3.Database(CONFIG.db_path)
 
-export function run(...sql) {
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            for (const sqlElement of sql) {
-                db.run(sqlElement, (err) => {
-                    if (err) {
-                        reject(err)
-                    }
-                })
-            }
-        })
-        resolve()
+export function run(...sqls) {
+    const tasks = []
+    sqls.forEach((sql) => {
+        tasks.push(new Promise((resolve, reject) => {
+            db.run(sql, (err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve()
+                }
+            })
+        }))
     })
+    return Promise.all(tasks)
 }
 
 export function get(sql) {
     return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.get(sql, (err, res) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve(res)
-                }
-            })
+        db.get(sql, (err, res) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(res)
+            }
         })
     })
 }
 
 export function all(sql) {
     return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.all(sql, (err, res) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    resolve(res)
-                }
-            })
+        db.all(sql, (err, res) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(res)
+            }
         })
     })
 }

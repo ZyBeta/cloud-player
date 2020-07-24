@@ -5,8 +5,12 @@ export default {
     steam_api_key: 'XXXXX',
     // UA show to huiji wiki, you can put your contact information here
     huiji_user_agent: 'CloudPlayer/1.0 (example@example.com)',
+    // express listening port
+    port: 3000,
     // URL of CQ http
     CQ_http_url: 'http://127.0.0.1:5700',
+    // if not set, robot will always get info from huiji instead of cache
+    game_major_version: '7.27c',
     // show extend info from huiji wiki
     show_extend_info: false,
     // active in private

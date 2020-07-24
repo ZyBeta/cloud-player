@@ -1,4 +1,4 @@
-import { get, run, all } from './promiseSql.mjs'
+import { all, get, run } from './promiseSql.mjs'
 
 const TABLE_NAME = 'items'
 
@@ -56,10 +56,16 @@ const COLUMNS = [
     'attack_rate',
     'armor_down',
     'mana_down',
+    'version',
+    'not_found',
 ]
 
 export async function getItemList() {
     return all(`SELECT id, name_zh FROM ${TABLE_NAME}`)
+}
+
+export async function getItemRandom() {
+    return get(`SELECT id, name_zh FROM ${TABLE_NAME} WHERE not_found IS NULL ORDER BY RANDOM()`)
 }
 
 export async function getItem(id) {
@@ -67,7 +73,7 @@ export async function getItem(id) {
 }
 
 export async function getItemByName(name) {
-    return get(`SELECT * FROM ${TABLE_NAME} WHERE name_zh LIKE '%${name}%'`)
+    return get(`SELECT * FROM ${TABLE_NAME} WHERE name_zh LIKE '%${name}%' AND not_found IS NULL`)
 }
 
 export async function addItem({ id, name, nameZh }) {
@@ -82,7 +88,7 @@ export async function putItem(id, params) {
     const keys = Object.keys(params)
     let setStr = ''
     for (const key of keys) {
-        if (params[key] && COLUMNS.indexOf(key) !== -1) {
+        if ((params[key] === 0 || params[key]) && COLUMNS.indexOf(key) !== -1) {
             setStr += ` ${key} = '${params[key]}',`
         }
     }

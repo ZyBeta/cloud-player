@@ -62,5 +62,5 @@ export function parseCommand(string) {
 export const COMMAND_TEXT = `
 !#help|!#h to show this page
 !#query|!#q [-t hero|item] -q {queryinfo} to search
-!#random|!#r [-t hero|item] to get random info
+!#random|!#r [-t hero|item] to get a random info
 `

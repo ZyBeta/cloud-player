@@ -10,6 +10,7 @@ const params = {
 
 const client = axios.create({
     baseURL: 'http://api.steampowered.com/IEconDOTA2_570/',
+    timeout: 30000,
 })
 
 export async function getHeroes() {
