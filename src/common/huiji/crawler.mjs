@@ -18,6 +18,7 @@ function getProcessBar(cur, tot, length, text) {
 }
 
 export default async function robot() {
+    /*
     const list = await getHeroList()
     const num = list.length
     consola.info('Loading hero info...')
@@ -27,13 +28,14 @@ export default async function robot() {
         sllout(getProcessBar(i + 1, num, 80, list[i].name_zh))
     }
     consola.success('Hero info has loaded')
-    consola.error('Loading item info...')
+     */
+    consola.info('Loading item info...')
     const list2 = await getItemList()
     const num2 = list2.length
     for (let i = 1; i < num2; i += 1) {
         // eslint-disable-next-line no-await-in-loop
-        await getCachedItem(list[i].id)
-        sllout(getProcessBar(i + 1, num, 80, list[i].name_zh))
+        await getCachedItem(list2[i].id)
+        sllout(getProcessBar(i + 1, num2, 80, list2[i].name_zh))
     }
     consola.success('Item info has loaded')
 }

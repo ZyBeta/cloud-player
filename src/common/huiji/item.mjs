@@ -1,4 +1,3 @@
-import axios from 'axios'
 import limitRequest from './limitRequest.mjs'
 import { getItem, putItem } from '../sqlite/items.mjs'
 import {

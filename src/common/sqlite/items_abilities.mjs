@@ -1,4 +1,6 @@
-import { all, get, run } from './promiseSql.mjs'
+import {
+    all, get, run, statementRun,
+} from './promiseSql.mjs'
 
 const TABLE_NAME = 'items_abilities'
 
@@ -31,11 +33,13 @@ export async function deleteIA(nameZh) {
 export async function putIA(nameZh, params) {
     const keys = Object.keys(params)
     let setStr = ''
+    const sqlparams = []
     for (const key of keys) {
         if ((params[key] === 0 || params[key]) && COLUMNS.indexOf(key) !== -1) {
-            setStr += ` ${key} = '${params[key]}',`
+            setStr += ` ${key} = ?,`
+            sqlparams.push(params[key])
         }
     }
     setStr = setStr.substring(0, setStr.length - 1)
-    await run(`UPDATE ${TABLE_NAME} SET ${setStr} WHERE name_zh = '${nameZh}'`)
+    await statementRun(`UPDATE ${TABLE_NAME} SET ${setStr} WHERE name_zh = '${nameZh}'`, sqlparams)
 }
