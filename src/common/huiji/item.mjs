@@ -1,29 +1,10 @@
 import axios from 'axios'
+import limitRequest from './limitRequest.mjs'
 import { getItem, putItem } from '../sqlite/items.mjs'
 import {
     addIA, getIA, getIAbyItem, putIA,
 } from '../sqlite/items_abilities.mjs'
 import CONFIG from '../../config.mjs'
-
-const client = axios.create({
-    baseURL: 'https://dota.huijiwiki.com/api.php',
-    headers: {
-        'User-Agent': CONFIG.huiji_user_agent,
-        'Accept-Encoding': 'gzip',
-        Accept: 'application/json; charset=utf-8;',
-    },
-    timeout: 30000,
-})
-
-function fetchItem(name) {
-    return client.get('', {
-        params: {
-            action: 'jsondata',
-            format: 'json',
-            title: `${name}.json`,
-        },
-    })
-}
 
 function formatWikiText(wikiText) {
     return wikiText.replace(/\[\[.*?link.*?]]/g, ' ')
@@ -71,7 +52,7 @@ export async function getCachedItem(id) {
             item, ia,
         }
     }
-    const res = await fetchItem(item.name_zh)
+    const res = await limitRequest(item.name_zh)
     const { jsondata } = res.data
     if (!jsondata) {
         await putItem(id, { not_found: '1' })
@@ -91,7 +72,7 @@ export async function getCachedItem(id) {
             if (!await getIA(skill)) {
                 await addIA(sqlObject)
             }
-            const skillRes = await fetchItem(skill)
+            const skillRes = await limitRequest(skill)
             const { jsondata: iaJsonData } = skillRes.data
             sqlObject = {}
             sqlObject.name = iaJsonData['代码']

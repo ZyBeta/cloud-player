@@ -4,7 +4,9 @@ export default {
     // a steam api key, can be generated in http://www.steamcommunity.com/dev/apikey
     steam_api_key: 'XXXXX',
     // UA show to huiji wiki, you can put your contact information here
-    huiji_user_agent: 'CloudPlayer/1.0 (example@example.com)',
+    huiji_user_agent: 'CloudPlayer/1.0 (example.com example@example.com)',
+    // request limit to huijiwiki (ms) ( no limit if set with 0)
+    huiji_request_limit: 2000,
     // express listening port
     port: 3000,
     // URL of CQ http

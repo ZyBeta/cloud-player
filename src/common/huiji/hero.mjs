@@ -1,29 +1,9 @@
-import axios from 'axios'
 import { getHero, putHero } from '../sqlite/heroes.mjs'
+import limitRequest from './limitRequest.mjs'
 import {
     addAB, getAB, getABbyHero, putAB,
 } from '../sqlite/abilities.mjs'
 import CONFIG from '../../config.mjs'
-
-const client = axios.create({
-    baseURL: 'https://dota.huijiwiki.com/api.php',
-    headers: {
-        'User-Agent': CONFIG.huiji_user_agent,
-        'Accept-Encoding': 'gzip',
-        Accept: 'application/json; charset=utf-8;',
-    },
-    timeout: 30000,
-})
-
-function fetchHero(name) {
-    return client.get('', {
-        params: {
-            action: 'jsondata',
-            format: 'json',
-            title: `${name}.json`,
-        },
-    })
-}
 
 function formatWikiText(wikiText) {
     return wikiText.replace(/\[\[.*?link.*?]]/g, ' ')
@@ -83,7 +63,7 @@ export async function getCachedHero(id) {
             hero, ab,
         }
     }
-    const res = await fetchHero(hero.name_zh)
+    const res = await limitRequest(hero.name_zh)
     const { jsondata } = res.data
     if (!jsondata) {
         await putHero(id, { not_found: '1' })
@@ -103,7 +83,7 @@ export async function getCachedHero(id) {
             if (!await getAB(skill)) {
                 await addAB(sqlObject)
             }
-            const skillRes = await fetchHero(skill)
+            const skillRes = await limitRequest(skill)
             const { jsondata: abJsonData } = skillRes.data
             sqlObject = {}
             sqlObject.name = abJsonData['代码']
