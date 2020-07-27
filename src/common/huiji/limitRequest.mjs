@@ -22,16 +22,15 @@ function fetch(name) {
 }
 
 export default function limitRequest(name) {
-    let lastFetchTime
     return new Promise((resolve, reject) => {
         const now = Date.now()
-        if (!CONFIG.huiji_request_limit || !lastFetchTime || now - lastFetchTime > CONFIG.huiji_request_limit) {
+        if (!CONFIG.huiji_request_limit || !global.lastFetchTime || now - global.lastFetchTime > CONFIG.huiji_request_limit) {
             fetch(name).then((res) => {
                 resolve(res)
             }).catch((e) => {
                 reject(e)
             }).finally(() => {
-                lastFetchTime = now
+                global.lastFetchTime = now
             })
         } else {
             setTimeout(() => {
@@ -40,9 +39,9 @@ export default function limitRequest(name) {
                 }).catch((e) => {
                     reject(e)
                 }).finally(() => {
-                    lastFetchTime = now
+                    global.lastFetchTime = now
                 })
-            }, CONFIG.huiji_request_limit - (now - lastFetchTime))
+            }, CONFIG.huiji_request_limit - (now - global.lastFetchTime))
         }
     })
 }

@@ -18,7 +18,6 @@ function getProcessBar(cur, tot, length, text) {
 }
 
 export default async function robot() {
-    /*
     const list = await getHeroList()
     const num = list.length
     consola.info('Loading hero info...')
@@ -28,7 +27,6 @@ export default async function robot() {
         sllout(getProcessBar(i + 1, num, 80, list[i].name_zh))
     }
     consola.success('Hero info has loaded')
-     */
     consola.info('Loading item info...')
     const list2 = await getItemList()
     const num2 = list2.length

@@ -85,6 +85,8 @@ export async function getCachedItem(id) {
     const sqlObject = {}
     sqlObject.info = jsondata['传说'].replace(/<br>/g, '\r\n')
     sqlObject.price = parseItem(jsondata, '价格')
+    // fix neutrality item
+    if (typeof sqlObject.price !== 'number') sqlObject.price = 0
     const comboList = jsondata['组件']
     const combo = []
     if (comboList) {
