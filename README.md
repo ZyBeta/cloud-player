@@ -21,7 +21,7 @@ dota2信息来源于[steam官方API](https://wiki.teamfortress.com/wiki/WebAPI)�
 
 ## 依赖
 
-[package.json](https://github.com/ZyBeta/cloud-player/blob/master/src/package.json)
+[package.json](https://github.com/ZyBeta/cloud-player/blob/master/package.json)
 
 ## License
 
