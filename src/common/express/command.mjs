@@ -60,7 +60,8 @@ export function parseCommand(string) {
 }
 
 export const COMMAND_TEXT = `
-!#help|!#h to show this page
-!#query|!#q [-t hero|item] -q {queryinfo} to search
-!#random|!#r [-t hero|item] to get a random info
+All command start with '!#'
+help|h to show this page
+query|q -t <hero|item> -q <...> to search
+random|r -t <hero|item> to get a random info
 `
